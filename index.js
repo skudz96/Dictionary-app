@@ -36,9 +36,6 @@ app.get("/", async (req, res) => {
     const randomWord = await getRandomWord();
     const definitionArray = await getDefinition(randomWord);
 
-    console.log("Random word:", randomWord);
-    console.log("Definition:", definitionArray);
-
     res.render("index.ejs", {
       word: randomWord,
       definition: definitionArray,
@@ -46,6 +43,23 @@ app.get("/", async (req, res) => {
   } catch (error) {
     console.error("Error:", error.message);
     res.status(500).send("Internal server Error");
+  }
+});
+
+app.post("/get-definition", async (req, res) => {
+  let searchedWord = req.body.word;
+  const definitionArray = await getDefinition(searchedWord);
+  try {
+    const response = await axios.get(
+      "https://api.dictionaryapi.dev/api/v2/entries/en/" + searchedWord
+    );
+    res.render("index.ejs", {
+      word: searchedWord,
+      definition: definitionArray,
+      origin: response.data[0].origin,
+    });
+  } catch (error) {
+    console.error("Word not found, try again!", error.message);
   }
 });
 

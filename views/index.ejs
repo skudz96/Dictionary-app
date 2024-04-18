@@ -14,9 +14,7 @@
   </head>
   <body style="background-color: #f0ead6">
     <div class="container">
-      <header
-        class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom"
-      >
+      <header class="d-flex flex-wrap justify-content-center py-3 mb-4">
         <a
           href="/"
           class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none"
@@ -24,24 +22,53 @@
           <svg class="bi me-2" width="40" height="32">
             <use xlink:href="#bootstrap"></use>
           </svg>
-          <span class="fs-4">Dictionappy</span>
+          <h1 style="color: #ff7f50">Dictionary</h1>
         </a>
-
-        <ul class="nav nav-pills">
-          <li class="nav-item">
-            <a href="#" class="nav-link active" aria-current="page">Home</a>
-          </li>
-        </ul>
       </header>
     </div>
     <!-- Below header -->
-    <div class="container text-start border w-25 word">
-      <h2><%= word %></h2>
-      <% definition.forEach(meaning => { %>
-      <p>
-        <%= meaning.partOfSpeech %>, <%= meaning.definitions[0].definition %>
+    <div class="container divider">
+      <div class="container text-center border w-50 word">
+        <h2><%= word %></h2>
+        <% definition.forEach(meaning => { %>
+        <p>
+          <%= meaning.partOfSpeech %>, <%= meaning.definitions[0].definition %>
+        </p>
+        <% }) %> <% if (locals.origin) { %>
+        <p><%= origin %></p>
+        <% } %>
+      </div>
+      <form
+        class="container justify-content-center text-center align-items-center py-5"
+        action="/get-definition"
+        method="post"
+      >
+        <div class="searchField">
+          <img src="images/magnifying.png" class="magnifying" />
+          <h2>Search a word</h2>
+        </div>
+        <div class="m-auto py-3 typeAnswer">
+          <input
+            type="text"
+            name="word"
+            class="inline form-control"
+            placeholder="Search: "
+          />
+        </div>
+      </form>
+    </div>
+    <div class="container text-center footerFinal">
+      <p class="lead mb-4 text-center">
+        © Dictionary app
+        <a href="mailto:sergeh96@gmail.com" class="text-reset">Serge Huleani</a>
       </p>
-      <% }) %>
+      <p class="d-inline p-2">
+        <a
+          href="https://github.com/skudz96"
+          class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover"
+          >Github</a
+        >
+      </p>
     </div>
   </body>
 </html>
