@@ -20,6 +20,8 @@ app.get("/", async (req, res) => {
 
     console.log(definitionArray);
 
+    console.log(definitionArray);
+
     res.render("index.ejs", {
       word: firstResponse.data,
       definition: JSON.parse(definitionArray),
