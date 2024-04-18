@@ -7,6 +7,8 @@ const port = 3000;
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
+let x = 123123123123;
+
 async function getRandomWord() {
   try {
     const response = await axios.get(
