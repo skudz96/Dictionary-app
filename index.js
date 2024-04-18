@@ -40,6 +40,7 @@ app.get("/", async (req, res) => {
       word: randomWord,
       definition: definitionArray,
     });
+    console.log(randomWord);
   } catch (error) {
     console.error("Error:", error.message);
     res.status(500).send("Internal server Error");
