@@ -7,27 +7,45 @@ const port = 3000;
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-app.get("/", async (req, res) => {
+async function getRandomWord() {
   try {
-    const firstResponse = await axios.get(
+    const response = await axios.get(
       "https://random-word-api.herokuapp.com/word"
     );
-    const randomWord = firstResponse.data[0];
-    const secondResponse = await axios.get(
-      "https://api.dictionaryapi.dev/api/v2/entries/en/" + randomWord
+    return response.data[0];
+  } catch (error) {
+    console.error("Error fetching random word:", error.message);
+    return getRandomWord();
+  }
+}
+
+async function getDefinition(word) {
+  try {
+    const response = await axios.get(
+      "https://api.dictionaryapi.dev/api/v2/entries/en/" + word
     );
-    var definitionArray = JSON.stringify(secondResponse.data[0].meanings);
+    return response.data[0].meanings;
+  } catch (error) {
+    console.error("Error fetching definition:", error.message);
+    return getDefinition(await getRandomWord());
+  }
+}
 
-    console.log(definitionArray);
+app.get("/", async (req, res) => {
+  try {
+    const randomWord = await getRandomWord();
+    const definitionArray = await getDefinition(randomWord);
 
-    console.log(definitionArray);
+    console.log("Random word:", randomWord);
+    console.log("Definition:", definitionArray);
 
     res.render("index.ejs", {
-      word: firstResponse.data,
-      definition: JSON.parse(definitionArray),
+      word: randomWord,
+      definition: definitionArray,
     });
   } catch (error) {
     console.error("Error:", error.message);
+    res.status(500).send("Internal server Error");
   }
 });
 
