@@ -19,7 +19,7 @@ app.get("/", async (req, res) => {
     var definitionArray = JSON.stringify(secondResponse.data[0].meanings);
 
     console.log(definitionArray);
-    console.log("test");
+
     res.render("index.ejs", {
       word: firstResponse.data,
       definition: JSON.parse(definitionArray),
