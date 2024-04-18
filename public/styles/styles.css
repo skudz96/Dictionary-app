@@ -1,0 +1,8 @@
+.word {
+  margin-top: 10rem;
+  background-color: whitesmoke;
+}
+
+body {
+  min-height: 100vh;
+}
